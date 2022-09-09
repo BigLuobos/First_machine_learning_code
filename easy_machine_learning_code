@@ -1,0 +1,28 @@
+# 引入numpy库
+import numpy as np
+
+x = np.random.randint(0,15,size = 500)
+y = np.random.randint(0,10,size = 500)
+
+s1 = 0.01 # 学习率
+w = 0
+b =0
+N = 500
+epoch_number = 1000
+
+for epoch in range(epoch_number):
+    deriv_w,deriv_b = 0.,0.
+    for i in range(N): # 计算所有样本的梯度平均值
+        deriv_w += 2/N*(w * x[i] + b - y[i]) * x[i]
+        deriv_b += 2/N*(w * x[i] + b - y[i])
+    # 利用所有样本梯度的平均值更新w和b
+    w = w - s1 * deriv_w
+    b = w - s1 * deriv_b
+    # 每隔一百步 计算一下当前的损失值
+    if epoch % 100 == 0:
+        current_loss = 0.
+        for i in range(N):
+            y_pred = w * x[i] +b
+            current_loss = current_loss + 1/N * (y_pred - y[i]) ** 2
+        print('epoch:',epoch,'current_loss:',current_loss,'w=',w,'b:',b)
+ 
